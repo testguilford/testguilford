@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <title>Психологический тест</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #E6E6FA;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .options label {
+            margin: 8px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .options label:hover {
+            background: #e9ecef;
+        }
+
+        button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            background: #B592FD;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #9370DB;
+        }
+
+        #result {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .low {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .high {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Тест Гилфорда для подростков</h1>
+
+        <div class="question-block" id="instruction">
+            <h3>Инструкция</h3>
+            <p>Прежде чем начинать тест, убедитесь, что у вас есть достаточно времени – не менее 30-40 минут – когда вас ничто не будет отвлекать.</p>
+            <p>Правильный ответ – 1 балл</p>
+            <p>Неправильный – 0</p>
+        </div>
+
+        <form id="testForm">
+<!--            <label for="surname">ФИО:</label>-->
+<!--            <input type="text" id="surname" name="surname" required>-->
+            <div class="question-block">
+                <p>Укажите ваш пол:</p>
+                <div class="options">
+                    <label><input type="radio" name="q0" value="0" required>Мужчина</label>
+                    <label><input type="radio" name="q0" value="0">Женщина</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>1. Какой вариант ответа содержит все слова, сходные по смыслу со словом «нежность»?</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="0" required> Дружба, счастье, смятение</label>
+                    <label><input type="radio" name="q1" value="0"> Объятия, разлука, влюблённость</label>
+                    <label><input type="radio" name="q1" value="1"> Ласка, любовь, забота</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>2. Внимательно изучите картинку и ответьте: кто из них левша?</p>
+                <img src="resources/2.png" width="300">
+                <div class="options">
+                    <label><input type="radio" name="q2" value="0" required> 1</label>
+                    <label><input type="radio" name="q2" value="0"> 2</label>
+                    <label><input type="radio" name="q2" value="0"> 3</label>
+                    <label><input type="radio" name="q2" value="0"> 4</label>
+                    <label><input type="radio" name="q2" value="1"> 5</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>3. Какое число будет следующим? 1 4 10 22 46 ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="1" required> 94</label>
+                    <label><input type="radio" name="q3" value="0"> 92</label>
+                    <label><input type="radio" name="q3" value="0"> 66</label>
+                    <label><input type="radio" name="q3" value="0"> 32</label>
+                    <label><input type="radio" name="q3" value="0"> 112</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>4. В каком из вариантов ответа перечислены наиболее вероятные последствия от следующей ситуации : «люди разучились смеяться» ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="0" required> Нельзя будет шутить и улыбаться; люди станут скучными</label>
+                    <label><input type="radio" name="q4" value="0"> Мир станет грустным; друзья перестанут общаться</label>
+                    <label><input type="radio" name="q4" value="1"> Радости в мире станет меньше; исчезнут комедийные передачи и фильмы</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>5. Какое число пропущено?</p>
+                <img src="resources/5.png" width="300">
+                <div class="options">
+                    <label><input type="radio" name="q5" value="1" required> 6</label>
+                    <label><input type="radio" name="q5" value="0"> 54</label>
+                    <label><input type="radio" name="q5" value="0"> 46</label>
+                    <label><input type="radio" name="q5" value="0"> 12</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>6. Какой из вариантов ответа содержит все слова, противоположные по смыслу со словом "ласковый"?</p>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="0" required> Нежный, суровый, взрывной</label>
+                    <label><input type="radio" name="q6" value="1"> Строгий, злой, сварливый</label>
+                    <label><input type="radio" name="q6" value="0"> Неприятный, сопереживающий, милый</label>
+                    <label><input type="radio" name="q6" value="0"> Обходительный, приветливый, грубый</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>7. Какая фигура лишняя?</p>
+                <img src="resources/7.png" width="500">
+                <div class="options">
+                    <label><input type="radio" name="q7" value="0" required> 1</label>
+                    <label><input type="radio" name="q7" value="0"> 2</label>
+                    <label><input type="radio" name="q7" value="0"> 3</label>
+                    <label><input type="radio" name="q7" value="1"> 4</label>
+                    <label><input type="radio" name="q7" value="0"> 5</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>8. Какой из вариантов ответов содержит все слова на букву А, относящиеся к разным категориям?</p>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="1" required> Амплитуда, Армения, Астана, амбал, апельсин.</label>
+                    <label><input type="radio" name="q8" value="0"> Аквамарин, астра, агат, арахис, атас.</label>
+                    <label><input type="radio" name="q8" value="0"> Ананас, армия, абонент, абонемент, абажур.</label>
+                    <label><input type="radio" name="q8" value="0"> Абзац, автобус, абориген, антоним, автомобиль.</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>9. На картинке 3 девочки: Ира, Таня и Галя ( слева направо). Кто из них хозяйка кота?</p>
+                <img src="resources/9.png" width="250">
+                <div class="options">
+                    <label><input type="radio" name="q9" value="0" required> Ира</label>
+                    <label><input type="radio" name="q9" value="0"> Таня</label>
+                    <label><input type="radio" name="q9" value="1"> Галя</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>10. Какой номер парковочного места под машиной?</p>
+                <img src="resources/10.png" width="500">
+                <div class="options">
+                    <label><input type="radio" name="q10" value="0" required> 78</label>
+                    <label><input type="radio" name="q10" value="0"> 08</label>
+                    <label><input type="radio" name="q10" value="0"> 18</label>
+                    <label><input type="radio" name="q10" value="1"> 87</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>11. Сколько пар квадратов разного цвета можно получить?</p>
+                <img src="resources/11.png" width="70">
+                <div class="options">
+                    <label><input type="radio" name="q11" value="0" required> 8</label>
+                    <label><input type="radio" name="q11" value="0"> 12</label>
+                    <label><input type="radio" name="q11" value="1"> 10</label>
+                    <label><input type="radio" name="q11" value="0"> 11</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>12. Три картинки, расположенные слева, иллюстрируют одно и то же состояние человека, одни и те же мысли, чувства и намерения. Одна из картинок, расположенных справа, выражает такое же состояние. Найдите её</p>
+                <img src="resources/12.png" width="600">
+                <div class="options">
+                    <label><input type="radio" name="q12" value="1" required> 1</label>
+                    <label><input type="radio" name="q12" value="0"> 2</label>
+                    <label><input type="radio" name="q12" value="0"> 3</label>
+                    <label><input type="radio" name="q12" value="0"> 4</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>13. Какие ассоциации вызывает следующая картинка?</p>
+                <img src="resources/13.png" width="250">
+                <div class="options">
+                    <label><input type="radio" name="q13" value="0" required> Свежесть, светло, гром</label>
+                    <label><input type="radio" name="q13" value="0"> Звуки дождя, запах мокрой земли, лужи</label>
+                    <label><input type="radio" name="q13" value="0"> Страх, темно, тихо</label>
+                    <label><input type="radio" name="q13" value="1"> Ливень, раскаты грома, ветер</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>14. Сколько треугольников на картинке?</p>
+                <img src="resources/14.png" width="300">
+                <div class="options">
+                    <label><input type="radio" name="q14" value="0" required> 7</label>
+                    <label><input type="radio" name="q14" value="1"> 24</label>
+                    <label><input type="radio" name="q14" value="0"> 10</label>
+                    <label><input type="radio" name="q14" value="0"> 32</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>15. Слева расположен рисунок, изображающий определённую ситуацию. Выберите наиболее правдоподобный вариант продолжения данной ситуации, из трёх картинок расположенных справа.</p>
+                <img src="resources/15.png" width="500">
+                <div class="options">
+                    <label><input type="radio" name="q15" value="0" required> 1</label>
+                    <label><input type="radio" name="q15" value="1"> 2</label>
+                    <label><input type="radio" name="q15" value="0"> 3</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>16.Какое значение у слова «Визави»?</p>
+                <div class="options">
+                    <label><input type="radio" name="q16" value="1" required> Положение, сидя напротив друг друга</label>
+                    <label><input type="radio" name="q16" value="0"> Влюблённость</label>
+                    <label><input type="radio" name="q16" value="0"> Статус в общесте</label>
+                    <label><input type="radio" name="q16" value="0"> Скрытый конфликт</label>
+                </div>
+            </div><div class="question-block">
+                <p>17. Палочки каких цветов нужно убрать, чтоб получилось 2 равносторонних треугольника?</p>
+                <img src="resources/17.png" width="300">
+                <div class="options">
+                    <label><input type="radio" name="q17" value="0" required> Чёрную и голубую</label>
+                    <label><input type="radio" name="q17" value="1"> Красную и бордовую</label>
+                    <label><input type="radio" name="q17" value="0"> Чёрную и фиолетовую</label>
+                    <label><input type="radio" name="q17" value="0"> Белую и зелёную</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>18. Какие из следующих определений одновременно подходят к словам: «фильм», «пешеход» ?</p>
+                <div class="options">
+                    <label><input type="radio" name="q18" value="0" required> Внимательный, быстрый</label>
+                    <label><input type="radio" name="q18" value="0"> Детективный, осторожный</label>
+                    <label><input type="radio" name="q18" value="0"> Медленный, завораживающий</label>
+                    <label><input type="radio" name="q18" value="1"> Непредсказуемый, весёлый</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>19. Смешением каких двух цветов можно получить серый/коричневый цвета?</p>
+                <div class="options">
+                    <label><input type="radio" name="q19" value="1" required> Чёрный + белый / зелёный + красный</label>
+                    <label><input type="radio" name="q19" value="0"> Оранжевый + зелёный / бордовый + серый</label>
+                    <label><input type="radio" name="q19" value="0"> Оранжевый + синий / красный + чёрный</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <p>20. Внимательно рассмотрите картинку и ответьте на вопросы: кем работает мужчина, сидящий за столом?/ какое на картинке время года?</p>
+                <img src="resources/20.png" width="500">
+                <div class="options">
+                    <label><input type="radio" name="q20" value="0" required> Адвокат / зима</label>
+                    <label><input type="radio" name="q20" value="0"> Учитель / весна</label>
+                    <label><input type="radio" name="q20" value="1"> Врач / зима</label>
+                    <label><input type="radio" name="q20" value="0"> Столяр / лето</label>
+                </div>
+            </div>
+
+            <button type="submit">Узнать результат</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        //emailjs.init({
+            //publicKey: "2uKFAovfxqOrIQd_I",
+        //});
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Сбор данных
+            //const surname = document.getElementById('surname').value;
+            const answers = [
+                parseInt(document.querySelector('input[name="q1"]:checked').value),
+                parseInt(document.querySelector('input[name="q2"]:checked').value),
+                parseInt(document.querySelector('input[name="q3"]:checked').value),
+                parseInt(document.querySelector('input[name="q4"]:checked').value),
+                parseInt(document.querySelector('input[name="q5"]:checked').value),
+                parseInt(document.querySelector('input[name="q6"]:checked').value),
+                parseInt(document.querySelector('input[name="q7"]:checked').value),
+                parseInt(document.querySelector('input[name="q8"]:checked').value),
+                parseInt(document.querySelector('input[name="q9"]:checked').value),
+                parseInt(document.querySelector('input[name="q10"]:checked').value),
+                parseInt(document.querySelector('input[name="q11"]:checked').value),
+                parseInt(document.querySelector('input[name="q12"]:checked').value),
+                parseInt(document.querySelector('input[name="q13"]:checked').value),
+                parseInt(document.querySelector('input[name="q14"]:checked').value),
+                parseInt(document.querySelector('input[name="q15"]:checked').value),
+                parseInt(document.querySelector('input[name="q16"]:checked').value),
+                parseInt(document.querySelector('input[name="q17"]:checked').value),
+                parseInt(document.querySelector('input[name="q18"]:checked').value),
+                parseInt(document.querySelector('input[name="q19"]:checked').value),
+                parseInt(document.querySelector('input[name="q20"]:checked').value)
+            ];
+
+            // Подсчет баллов
+            //const total = answers.reduce((acc, curr) => acc + curr, 0);
+            let total = 0;
+            for (let i = 0; i < answers.length; i++) {
+                total += answers[i];
+            }
+            console.log(total);
+
+            // Определение результата
+            let resultText = '';
+            let resultClass = '';
+
+            if(total <= 10) {
+                resultText = `Ваша креативность ниже среднего уровня, но это не означает отсутствия способностей! В вас есть нераскрытые, «дремлющие» таланты — важно начать их развивать. Уделяйте больше внимания обучению, тренируйте нестандартное мышление и не бойтесь пробовать новое. Работа над собой поможет повысить как творческий, так и интеллектуальный уровень.`;
+                resultClass = 'low';
+            } else if(total <= 15) {
+                resultText = `Ваш результат соответствует среднему уровню креативности и интеллекта. Это хорошая база, но есть потенциал для роста! Старайтесь чаще выходить за рамки шаблонов, экспериментировать с новыми идеями и углубляться в обучение. Развивайте креативное мышление — это откроет больше возможностей.`;
+                resultClass = 'medium';
+            } else {
+                resultText = `Поздравляем! У вас высокая степень креативности — это говорит о ярко выраженных творческих способностях. Вы мыслите нестандартно, активны, постоянно ищете новое и обладаете высоким уровнем интеллекта. Ваши таланты уже активно реализуются — продолжайте в том же духе!`;
+                resultClass = 'high';
+            }
+
+            // Показ результата
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = resultClass;
+            resultDiv.innerHTML = `<h2>Результат:</h2><p>${resultText}</p><p>Набранные баллы: ${total}</p>`;
+            resultDiv.style.display = 'block';
+            document.getElementById('testForm').style.display = 'none';
+            document.getElementById('instruction').style.display = 'none';
+            //try {
+                //const response = await emailjs.send(
+                  //"service_rkvr235","template_m123gxc",{
+                    //title: "Результаты теста",
+                    //name: `${surname}`,
+                    //message: `${resultText}`,
+                    //emailaddress: "nik.filippov05@gmail.com",
+                  //}
+                //);
+
+                //console.log('Письмо отправлено!', response.status, response.text);
+             //} catch (error) {
+                //console.error('Ошибка:', error);
+             //}
+        });
+
+    </script>
+</body>
+</html>
